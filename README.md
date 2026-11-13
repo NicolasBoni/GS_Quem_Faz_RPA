@@ -2,8 +2,7 @@
 
 **Global Solution 2026 · FIAP · Robotic Process Automation · CitizenTech**
 
-Interface administrativa (PHP) + API (Python/FastAPI) integradas ao fluxo
-**`QuemFaz_Validacao_Pedidos`** do **Microsoft Power Automate Desktop**. O administrador vê as
+Interface administrativa integradas ao fluxo do **Microsoft Power Automate Desktop**. O administrador vê as
 solicitações recebidas, aciona o RPA real com um botão, acompanha as etapas comprovadas e
 consulta resultados, pedidos aptos para publicação e auditoria. Ninguém precisa abrir CSV.
 
