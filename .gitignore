@@ -1,0 +1,26 @@
+# Configuração local e segredos
+.env
+*.env.local
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Estado de execução do backend (execuções, arquivos arquivados)
+var/
+
+# Saídas e dados de execução do RPA (nunca versionar dados reais)
+controle/
+
+# Ferramentas locais / sistema
+tools/
+*.log
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini

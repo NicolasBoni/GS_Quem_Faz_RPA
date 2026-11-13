@@ -1,0 +1,6 @@
+Verificacao em 12/11/2026
+Comando: .venv\Scripts\python.exe -m pytest -m "not e2e_real" -q
+Codigo de saida: 0
+Resultado: 63 passed, 1 deselected, 1 warning in 27.45s
+PAD real excluido; dados de teste ficticios em pastas temporarias.
+Aviso: deprecacao de httpx no cliente de testes Starlette.

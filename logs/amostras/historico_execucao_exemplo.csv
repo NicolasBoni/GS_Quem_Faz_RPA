@@ -1,0 +1,13 @@
+﻿data_hora,etapa,numero_pedido,resultado,mensagem
+2026-11-10 23:14:02,Validacao,PED-001,APROVADO,Pedido validado e disponivel aos profissionais
+2026-11-10 23:14:02,Validacao,PED-002,APROVADO,Pedido validado e disponivel aos profissionais
+2026-11-10 23:14:02,Validacao,PED-003,APROVADO,Pedido validado e disponivel aos profissionais
+2026-11-10 23:14:02,Validacao,PED-004,REPROVADO,Categoria nao cadastrada no MVP
+2026-11-10 23:14:02,Validacao,PED-005,REPROVADO,Descricao do servico nao informada
+2026-11-10 23:14:02,Validacao,PED-006,IGNORADO,Pedido nao esta pendente de validacao
+2026-11-10 23:14:02,Validacao,PED-001,DUPLICADO,Numero do pedido repetido no mesmo lote
+2026-11-10 23:14:02,Validacao,PED-007,REPROVADO,Bairro do servico nao informado
+2026-11-10 23:14:02,Validacao,PED-008,APROVADO,Pedido validado e disponivel aos profissionais
+2026-11-10 23:14:02,Validacao,,REPROVADO,Numero do pedido nao informado
+2026-11-10 23:14:02,Validacao,PED-009,REPROVADO,Codigo do contratante nao informado
+2026-11-10 23:14:02,Resumo,LOTE,CONCLUIDO,Total analisado: 11; aprovados: 4; reprovados: 5; duplicados: 1; ignorados: 1.

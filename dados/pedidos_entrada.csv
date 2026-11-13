@@ -1,0 +1,12 @@
+numero_pedido,categoria,descricao,bairro,codigo_cliente,situacao
+PED-001,PINTURA,Pintura de parede da sala,Mooca,CLI-001,PENDENTE
+PED-002,LIMPEZA,Limpeza de apartamento,Vila Mariana,CLI-002,PENDENTE
+PED-003,MANUTENCAO,Conserto de torneira,Santana,CLI-003,PENDENTE
+PED-004,JARDINAGEM,Corte de grama,Butanta,CLI-004,PENDENTE
+PED-005,LIMPEZA,,Tatuape,CLI-005,PENDENTE
+PED-006,LIMPEZA,Limpeza de escritorio,Bela Vista,CLI-006,PUBLICADO
+PED-001,PINTURA,Pintura de portao,Mooca,CLI-007,PENDENTE
+PED-007,PINTURA,Pintura de quarto,,CLI-008,PENDENTE
+PED-008,MANUTENCAO,Instalacao de prateleiras,Ipiranga,CLI-009,PENDENTE
+,LIMPEZA,Limpeza de quintal,Pinheiros,CLI-010,PENDENTE
+PED-009,PINTURA,Pintura de fachada,Perdizes,,PENDENTE

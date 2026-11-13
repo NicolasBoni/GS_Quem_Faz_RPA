@@ -1,0 +1,163 @@
+**REGION inicializacao
+Display.ShowMessageDialog.ShowMessageWithTimeout Title: $'''Quem Faz - RPA''' Message: $'''Iniciando a validacao automatica dos pedidos de servico.''' Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: True Timeout: 3 ButtonPressed=> botaoinicial
+SET pastadoprojeto TO $'''C:\\Users\\nicab\\Downloads\\GS_Quem_Faz_RPA'''
+SET caminhodospedidos TO $'''%pastadoprojeto%\\dados\\pedidos_entrada.csv'''
+SET caminhodosresultados TO $'''%pastadoprojeto%\\resultados\\pedidos_processados.csv'''
+SET caminhodospublicaveis TO $'''%pastadoprojeto%\\resultados\\pedidos_publicaveis.csv'''
+SET caminhodolog TO $'''%pastadoprojeto%\\logs\\historico_execucao.csv'''
+SET etapaatual TO $'''Inicializacao'''
+SET situacaodaexecucao TO $'''Em andamento'''
+SET motivodoerro TO $'''Nenhum erro identificado'''
+SET totaldepedidos TO 0
+SET pedidosaprovados TO 0
+SET pedidosreprovados TO 0
+SET pedidosignorados TO 0
+SET pedidosduplicados TO 0
+SET houveerro TO False
+Variables.CreateNewList List=> pedidosjaencontrados
+DateTime.GetCurrentDateTime.Local DateTimeFormat: DateTime.DateTimeFormat.DateAndTime CurrentDateTime=> momentodaexecucao
+Text.ConvertDateTimeToText.FromCustomDateTime DateTime: momentodaexecucao CustomFormat: $'''yyyy-MM-dd HH:mm:ss''' Result=> dataehoradaexecucao
+**ENDREGION
+**REGION leitura dos pedidos
+SET etapaatual TO $'''Leitura dos pedidos pendentes'''
+BLOCK 'erro ao ler ou converter os pedidos'
+ON BLOCK ERROR
+    SET HouveErro TO True
+    SET SituacaoDaExecucao TO $'''Falha na leitura dos pedidos'''
+    SET MotivoDoErro TO $'''Nao foi possivel abrir ou interpretar o arquivo de entrada. Confira o caminho e o cabecalho do CSV.'''
+    GOTO FINALIZACAO_ERRO
+END
+    File.ReadTextFromFile.ReadText File: caminhodospedidos Encoding: File.TextFileEncoding.UTF8 Content=> textodospedidos
+    Variables.GenerateDataTableFromCSV.ReadPredefinedSeparator CSVText: textodospedidos TrimFields: True FirstLineContainsColumnNames: True ReadFieldsAsText: True ColumnsSeparator: Variables.CSVColumnsSeparator.Comma CSVTable=> tabeladepedidos
+END
+IF tabeladepedidos.RowsCount = 0 THEN
+    SET houveerro TO True
+    SET situacaodaexecucao TO $'''Arquivo de entrada sem pedidos'''
+    SET motivodoerro TO $'''O arquivo CSV foi carregado mas nao possui pedidos para analisar.'''
+    GOTO FINALIZACAO_ERRO
+END
+**ENDREGION
+**REGION preparacao dos arquivos
+SET etapaatual TO $'''Preparacao dos arquivos de saida'''
+BLOCK 'erro ao preparar os arquivos de saida'
+ON BLOCK ERROR
+    SET HouveErro TO True
+    SET SituacaoDaExecucao TO $'''Falha ao preparar arquivos'''
+    SET MotivoDoErro TO $'''Confira se as pastas resultados e logs existem e se o usuario possui permissao de gravacao.'''
+    GOTO FINALIZACAO_ERRO
+END
+    File.WriteText File: caminhodosresultados TextToWrite: $'''numero_pedido,categoria,descricao,bairro,resultado,motivo''' AppendNewLine: True IfFileExists: File.IfFileExists.Overwrite Encoding: File.FileEncoding.UTF8
+    File.WriteText File: caminhodospublicaveis TextToWrite: $'''numero_pedido,categoria,descricao,bairro,situacao''' AppendNewLine: True IfFileExists: File.IfFileExists.Overwrite Encoding: File.FileEncoding.UTF8
+    File.WriteText File: caminhodolog TextToWrite: $'''data_hora,etapa,numero_pedido,resultado,mensagem''' AppendNewLine: True IfFileExists: File.IfFileExists.Overwrite Encoding: File.FileEncoding.UTF8
+END
+**ENDREGION
+**REGION processamento dos pedidos
+SET etapaatual TO $'''Validacao individual dos pedidos'''
+BLOCK 'erro durante o processamento dos pedidos'
+ON BLOCK ERROR
+    SET HouveErro TO True
+    SET SituacaoDaExecucao TO $'''Falha no processamento'''
+    SET MotivoDoErro TO $'''Erro inesperado durante a validacao de um registro. Confira as colunas do CSV e os arquivos de saida.'''
+    GOTO FINALIZACAO_ERRO
+END
+    LOOP FOREACH pedidoatual IN tabeladepedidos
+        SET totaldepedidos TO totaldepedidos + 1
+        SET numerodopedido TO pedidoatual['numero_pedido']
+        SET categoriadoservico TO pedidoatual['categoria']
+        SET descricaodoservico TO pedidoatual['descricao']
+        SET bairrodoservico TO pedidoatual['bairro']
+        SET codigodocontratante TO pedidoatual['codigo_cliente']
+        SET situacaodopedido TO pedidoatual['situacao']
+        SET pedidojaexistia TO False
+        SET categoriapermitida TO False
+        SET resultadodopedido TO $'''EM ANALISE'''
+        SET motivodoresultado TO $'''Aguardando validacao'''
+        LOOP FOREACH numerojaencontrado IN pedidosjaencontrados
+            IF numerojaencontrado = numerodopedido THEN
+                SET pedidojaexistia TO True
+            END
+        END
+        IF categoriadoservico = $'''LIMPEZA''' THEN
+            SET categoriapermitida TO True
+        ELSE IF categoriadoservico = $'''PINTURA''' THEN
+            SET categoriapermitida TO True
+        ELSE IF categoriadoservico = $'''MANUTENCAO''' THEN
+            SET categoriapermitida TO True
+        END
+        IF IsEmpty(numerodopedido) THEN
+            SET resultadodopedido TO $'''REPROVADO'''
+            SET motivodoresultado TO $'''Numero do pedido nao informado'''
+        ELSE IF pedidojaexistia = True THEN
+            SET resultadodopedido TO $'''DUPLICADO'''
+            SET motivodoresultado TO $'''Numero do pedido repetido no mesmo lote'''
+        ELSE IF situacaodopedido <> $'''PENDENTE''' THEN
+            SET resultadodopedido TO $'''IGNORADO'''
+            SET motivodoresultado TO $'''Pedido nao esta pendente de validacao'''
+        ELSE IF IsEmpty(codigodocontratante) THEN
+            SET resultadodopedido TO $'''REPROVADO'''
+            SET motivodoresultado TO $'''Codigo do contratante nao informado'''
+        ELSE IF IsEmpty(categoriadoservico) THEN
+            SET resultadodopedido TO $'''REPROVADO'''
+            SET motivodoresultado TO $'''Categoria nao informada'''
+        ELSE IF categoriapermitida = False THEN
+            SET resultadodopedido TO $'''REPROVADO'''
+            SET motivodoresultado TO $'''Categoria nao cadastrada no MVP'''
+        ELSE IF IsEmpty(descricaodoservico) THEN
+            SET resultadodopedido TO $'''REPROVADO'''
+            SET motivodoresultado TO $'''Descricao do servico nao informada'''
+        ELSE IF IsEmpty(bairrodoservico) THEN
+            SET resultadodopedido TO $'''REPROVADO'''
+            SET motivodoresultado TO $'''Bairro do servico nao informado'''
+        ELSE
+            SET resultadodopedido TO $'''APROVADO'''
+            SET motivodoresultado TO $'''Pedido validado e disponivel aos profissionais'''
+        END
+        IF IsNotEmpty(numerodopedido) THEN
+            Variables.AddItemToList Item: numerodopedido List: pedidosjaencontrados
+        END
+        SET linhadoresultado TO $'''%numerodopedido%,%categoriadoservico%,%descricaodoservico%,%bairrodoservico%,%resultadodopedido%,%motivodoresultado%'''
+        File.WriteText File: caminhodosresultados TextToWrite: linhadoresultado AppendNewLine: True IfFileExists: File.IfFileExists.Append Encoding: File.FileEncoding.UTF8
+        SET linhadolog TO $'''%dataehoradaexecucao%,Validacao,%numerodopedido%,%resultadodopedido%,%motivodoresultado%'''
+        File.WriteText File: caminhodolog TextToWrite: linhadolog AppendNewLine: True IfFileExists: File.IfFileExists.Append Encoding: File.FileEncoding.UTF8
+        IF resultadodopedido = $'''APROVADO''' THEN
+            SET pedidosaprovados TO pedidosaprovados + 1
+            SET linhaparaoquemfaz TO $'''%numerodopedido%,%categoriadoservico%,%descricaodoservico%,%bairrodoservico%,PUBLICADO'''
+            File.WriteText File: caminhodospublicaveis TextToWrite: linhaparaoquemfaz AppendNewLine: True IfFileExists: File.IfFileExists.Append Encoding: File.FileEncoding.UTF8
+        ELSE IF resultadodopedido = $'''REPROVADO''' THEN
+            SET pedidosreprovados TO pedidosreprovados + 1
+        ELSE IF resultadodopedido = $'''DUPLICADO''' THEN
+            SET pedidosduplicados TO pedidosduplicados + 1
+        ELSE
+            SET pedidosignorados TO pedidosignorados + 1
+        END
+    END
+END
+**ENDREGION
+**REGION conferencia e integracao com mvp
+SET etapaatual TO $'''Entrega dos pedidos aprovados ao Quem Faz'''
+IF pedidosaprovados = 0 THEN
+    SET situacaodaexecucao TO $'''Concluida sem pedidos aprovados'''
+ELSE
+    SET situacaodaexecucao TO $'''Concluida com pedidos aprovados'''
+END
+SET resumodaexecucao TO $'''Total analisado: %TotalDePedidos%; aprovados: %PedidosAprovados%; reprovados: %PedidosReprovados%; duplicados: %PedidosDuplicados%; ignorados: %PedidosIgnorados%.'''
+SET linhadolog TO $'''%dataehoradaexecucao%,Resumo,LOTE,CONCLUIDO,%resumodaexecucao%'''
+BLOCK 'erro ao registrar o resumo de execucao'
+ON BLOCK ERROR
+    SET HouveErro TO True
+    SET SituacaoDaExecucao TO $'''Falha ao finalizar o log'''
+    SET MotivoDoErro TO $'''O processamento terminou mas o resumo nao foi gravado no arquivo de auditoria.'''
+    GOTO FINALIZACAO_ERRO
+END
+    File.WriteText File: caminhodolog TextToWrite: linhadolog AppendNewLine: True IfFileExists: File.IfFileExists.Append Encoding: File.FileEncoding.UTF8
+END
+GOTO FINALIZACAO_SUCESSO
+**ENDREGION
+**REGION finalizacao
+LABEL FINALIZACAO_SUCESSO
+Display.ShowMessageDialog.ShowMessageWithTimeout Title: $'''Quem Faz - Processamento concluido''' Message: $'''A analise dos pedidos foi concluida. %ResumoDaExecucao% | Resultados: %CaminhoDosResultados% | MVP: %CaminhoDosPublicaveis% | Log: %CaminhoDoLog%''' Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: True Timeout: 12 ButtonPressed=> botaofinal
+EXIT Code: 0
+LABEL FINALIZACAO_ERRO
+Display.ShowMessageDialog.ShowMessageWithTimeout Title: $'''Quem Faz - Erro na automacao''' Message: $'''A automacao foi interrompida. Etapa: %EtapaAtual% | Status: %SituacaoDaExecucao% | Motivo: %MotivoDoErro%''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: True Timeout: 15 ButtonPressed=> botaoerro
+EXIT Code: 0
+**ENDREGION

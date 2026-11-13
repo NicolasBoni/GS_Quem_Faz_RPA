@@ -1,0 +1,5 @@
+﻿numero_pedido,categoria,descricao,bairro,situacao
+PED-001,PINTURA,Pintura de parede da sala,Mooca,PUBLICADO
+PED-002,LIMPEZA,Limpeza de apartamento,Vila Mariana,PUBLICADO
+PED-003,MANUTENCAO,Conserto de torneira,Santana,PUBLICADO
+PED-008,MANUTENCAO,Instalacao de prateleiras,Ipiranga,PUBLICADO

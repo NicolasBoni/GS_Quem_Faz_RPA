@@ -1,0 +1,12 @@
+﻿numero_pedido,categoria,descricao,bairro,resultado,motivo
+PED-001,PINTURA,Pintura de parede da sala,Mooca,APROVADO,Pedido validado e disponivel aos profissionais
+PED-002,LIMPEZA,Limpeza de apartamento,Vila Mariana,APROVADO,Pedido validado e disponivel aos profissionais
+PED-003,MANUTENCAO,Conserto de torneira,Santana,APROVADO,Pedido validado e disponivel aos profissionais
+PED-004,JARDINAGEM,Corte de grama,Butanta,REPROVADO,Categoria nao cadastrada no MVP
+PED-005,LIMPEZA,,Tatuape,REPROVADO,Descricao do servico nao informada
+PED-006,LIMPEZA,Limpeza de escritorio,Bela Vista,IGNORADO,Pedido nao esta pendente de validacao
+PED-001,PINTURA,Pintura de portao,Mooca,DUPLICADO,Numero do pedido repetido no mesmo lote
+PED-007,PINTURA,Pintura de quarto,,REPROVADO,Bairro do servico nao informado
+PED-008,MANUTENCAO,Instalacao de prateleiras,Ipiranga,APROVADO,Pedido validado e disponivel aos profissionais
+,LIMPEZA,Limpeza de quintal,Pinheiros,REPROVADO,Numero do pedido nao informado
+PED-009,PINTURA,Pintura de fachada,Perdizes,REPROVADO,Codigo do contratante nao informado
