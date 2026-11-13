@@ -2,8 +2,6 @@
 
 **Global Solution 2026 · FIAP · Robotic Process Automation · CitizenTech**
 
-[Repositório no GitHub](https://github.com/NicolasBoni/GS_Quem_Faz_RPA)
-
 Interface administrativa (PHP) + API (Python/FastAPI) integradas ao fluxo
 **`QuemFaz_Validacao_Pedidos`** do **Microsoft Power Automate Desktop**. O administrador vê as
 solicitações recebidas, aciona o RPA real com um botão, acompanha as etapas comprovadas e
@@ -240,13 +238,3 @@ automatizada está em [tests/evidencias/](tests/evidencias/).
 - [Testes e saídas preservadas do PAD](tests/)
 - [Imagens e evidências visuais](assets/)
 
-## Limitações
-
-- Requer Windows com **usuário conectado e sessão desbloqueada**. Sem Premium não há execução
-  *unattended*.
-- O modo `interface_grafica` depende dos identificadores da UI do console do PAD (verificados no
-  pacote 11.2611). Se mudarem, a execução falha; o modo assistido depende de `fallback_assistido=True`.
-- O fluxo grava CSV sem aspas. Descrições com vírgula, aspas ou quebra de linha são bloqueadas no
-  cadastro; CSVs editados à mão com esses caracteres aparecem como linhas inválidas.
-- A duplicidade é verificada dentro de cada lote (regra do fluxo).
-- Dados de exemplo são **fictícios**. Não versione dados pessoais reais.
