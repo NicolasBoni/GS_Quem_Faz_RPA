@@ -24,6 +24,88 @@ Interface PHP → Backend Python → Power Automate Desktop → CSVs → Backend
 | Guilherme Brazioli | RM98237 |
 | Pedro Oliveira Valotto | RM551445 |
 
+## Ficha técnica do MVP — Quem Faz
+
+### 1. Nome do produto
+
+**Quem Faz** — Plataforma de conexão entre contratantes e prestadores de serviços.
+
+### 2. Cidadão e território
+
+Moradores, empresas e profissionais prestadores de serviços da cidade de **São Paulo (SP)**.
+
+### 3. Problema, em uma frase
+
+A dificuldade de encontrar profissionais adequados e confiáveis para a contratação de serviços, enquanto prestadores enfrentam obstáculos para divulgar suas habilidades e conquistar novos clientes.
+
+### 4. Proposta de valor
+
+O Quem Faz propõe uma plataforma que aproxima contratantes e prestadores de serviços por meio da exploração de categorias profissionais e da publicação de solicitações. Os usuários poderão consultar perfis, solicitar propostas e avaliar experiências após a conclusão dos serviços.
+
+No módulo de RPA, a proposta é automatizar a validação das solicitações recebidas, identificando registros incompletos, duplicados ou incompatíveis com as regras estabelecidas, tornando o processo administrativo mais organizado, padronizado e rastreável.
+
+### 5. Arquitetura: componentes
+
+- **Frontend:** PHP, HTML, CSS e JavaScript para a interface administrativa.
+- **Backend:** Python, FastAPI, Uvicorn e Pydantic para comunicação, coordenação e validação dos dados.
+- **Automação:** Microsoft Power Automate Desktop para processamento e classificação das solicitações.
+- **Integração:** pywinauto e PyAutoGUI para acionamento local da automação.
+- **Armazenamento:** arquivos CSV para entradas e resultados, e JSON para registros internos de execução.
+- **Testes e versionamento:** pytest, Git e GitHub.
+
+**Fluxo de integração:** Interface PHP → Backend Python → Power Automate Desktop → Arquivos CSV → Backend Python → Interface PHP.
+
+### 6. Fontes de dados
+
+Arquivos CSV locais com solicitações de serviços, contendo informações como número do pedido, categoria, descrição, bairro, identificação do contratante e situação.
+
+A automação gera arquivos estruturados com classificações, justificativas, pedidos aptos à publicação e histórico de execução. A prova de conceito utiliza **dados fictícios** para demonstração e validação.
+
+### 7. Modelos de IA utilizados
+
+**ChatGPT Codex**, utilizado como ferramenta de apoio ao desenvolvimento, implementação e revisão do código do projeto.
+
+O processamento das solicitações no módulo RPA é realizado por regras de negócio definidas no Power Automate Desktop, **sem utilização de um modelo de IA para tomar as decisões de aprovação ou reprovação**.
+
+### 8. URL do MVP e repositório
+
+- **Repositório GitHub:** https://github.com/NicolasBoni/GS_Quem_Faz_RPA
+- **MVP local (interface):** http://127.0.0.1:8080
+- **API local:** http://127.0.0.1:8000
+- **Documentação da API:** http://127.0.0.1:8000/docs
+
+A demonstração funciona localmente, em ambiente Windows, com os serviços e o Power Automate Desktop configurados. **Os endereços `127.0.0.1` não constituem links públicos de hospedagem.**
+
+### 9. Indicadores de impacto
+
+Os resultados técnicos da prova de conceito foram obtidos em um lote demonstrativo:
+
+| Indicador | Resultado |
+|---|---|
+| Solicitações processadas | **11** |
+| Solicitações aprovadas (aptas para publicação) | **4** |
+| Solicitações reprovadas | **5** |
+| Solicitações duplicadas | **1** |
+| Solicitações ignoradas | **1** |
+| Testes automatizados aprovados (componentes da aplicação, com simulações) | **63** |
+| Divergências na classificação das 11 saídas em relação ao esperado | **0** |
+
+Como benefícios esperados, destacam-se a redução das conferências manuais, a padronização das decisões, a prevenção de inconsistências e a rastreabilidade dos pedidos. **Esses benefícios ainda não possuem métricas de impacto real**, pois o MVP foi validado com dados demonstrativos. Os 63 testes automatizados não substituem a execução real do robô, apresentada separadamente no README.
+
+### 10. ODS conectados
+
+**ODS 9 — Indústria, Inovação e Infraestrutura**
+
+O Quem Faz contribui para esse objetivo ao propor uma solução tecnológica que digitaliza processos e facilita a conexão entre profissionais e contratantes. A integração com RPA demonstra o uso da automação para organizar solicitações, padronizar verificações e melhorar a eficiência operacional.
+
+**ODS 11 — Cidades e Comunidades Sustentáveis**
+
+O Quem Faz se conecta a esse objetivo ao propor melhorias no acesso a serviços locais na cidade de São Paulo, facilitando o encontro entre moradores, empresas e profissionais da própria comunidade. A plataforma busca fortalecer as oportunidades de trabalho e tornar a contratação de serviços mais acessível e organizada.
+
+As contribuições aos ODS representam os objetivos e benefícios potenciais da solução, **ainda não resultados sociais comprovados em operação real**.
+
+---
+
 ## Arquitetura e evidências
 
 O navegador carrega as páginas PHP e consulta a API FastAPI por JavaScript. A API aciona
@@ -40,8 +122,7 @@ Os pedidos e resultados ficam em CSV; os registros internos de execução ficam 
 - [Testes automatizados e dados de teste](tests/)
 - [Registro da execução dos testes](tests/evidencias/pytest_simulados_2026-11-12.txt)
 
-O Python está organizado em `backend/`. A pasta `src/` foi dispensada nesta entrega,
-conforme a organização adotada pelo grupo.
+O Python está organizado em `backend/`.
 
 ## Status
 
@@ -236,4 +317,5 @@ automatizada está em [tests/evidencias/](tests/evidencias/).
 - [Fluxograma geral do sistema](docs/fluxograma_sistema.png)
 - [Testes e saídas preservadas do PAD](tests/)
 - [Imagens e evidências visuais](assets/)
+- [Vídeo demonstrativo (Google Drive)](https://drive.google.com/drive/folders/1tXF6Wen5SddRkT46T_pZVuVzklTNInAV?usp=drive_link)
 
