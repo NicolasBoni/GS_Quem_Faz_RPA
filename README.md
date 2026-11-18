@@ -2,6 +2,10 @@
 
 **Global Solution 2026 · FIAP · Robotic Process Automation · CitizenTech**
 
+**🎬 Vídeo demonstrativo (Google Drive):** [Acessar vídeo da apresentação](https://drive.google.com/drive/folders/1tXF6Wen5SddRkT46T_pZVuVzklTNInAV?usp=drive_link)
+
+**Link completo:** https://drive.google.com/drive/folders/1tXF6Wen5SddRkT46T_pZVuVzklTNInAV?usp=drive_link
+
 Interface administrativa integradas ao fluxo do **Microsoft Power Automate Desktop**. O administrador vê as
 solicitações recebidas, aciona o RPA real com um botão, acompanha as etapas comprovadas e
 consulta resultados, pedidos aptos para publicação e auditoria. Ninguém precisa abrir CSV.
