@@ -100,13 +100,19 @@ Como benefícios esperados, destacam-se a redução das conferências manuais, a
 
 **ODS 9 — Indústria, Inovação e Infraestrutura**
 
-O Quem Faz contribui para esse objetivo ao propor uma solução tecnológica que digitaliza processos e facilita a conexão entre profissionais e contratantes. A integração com RPA demonstra o uso da automação para organizar solicitações, padronizar verificações e melhorar a eficiência operacional.
+O Quem Faz contribui para esse objetivo ao propor uma solução tecnológica que digitaliza processos e facilita a conexão entre profissionais e contratantes. No Maker-Lab, a integração entre Arduino, sensores, reconhecimento de voz e aprendizado de máquina demonstra o uso de tecnologias inovadoras para simplificar o registro e a organização de solicitações de serviços.
+
+**ODS 10 — Redução das Desigualdades (Meta 10.2)**
+
+O Quem Faz busca ampliar as oportunidades de trabalho e geração de renda para profissionais autônomos e informais, inclusive aqueles que atuam em bairros periféricos de São Paulo. A plataforma oferece um espaço para que esses profissionais divulguem suas habilidades, encontrem novos clientes e construam sua reputação por meio de avaliações vinculadas aos serviços realizados.
+
+No módulo Quem Faz Smart Point, a interação por voz representa uma alternativa para facilitar o registro de solicitações, buscando tornar o acesso à plataforma mais inclusivo.
 
 **ODS 11 — Cidades e Comunidades Sustentáveis**
 
-O Quem Faz se conecta a esse objetivo ao propor melhorias no acesso a serviços locais na cidade de São Paulo, facilitando o encontro entre moradores, empresas e profissionais da própria comunidade. A plataforma busca fortalecer as oportunidades de trabalho e tornar a contratação de serviços mais acessível e organizada.
+O Quem Faz se conecta a esse objetivo ao propor melhorias no acesso a serviços locais na cidade de São Paulo, facilitando o encontro entre moradores, empresas e profissionais da própria comunidade. O Smart Point acrescenta uma possibilidade de interação por voz, buscando tornar o registro de solicitações mais simples e acessível.
 
-As contribuições aos ODS representam os objetivos e benefícios potenciais da solução, **ainda não resultados sociais comprovados em operação real**.
+As contribuições aos ODS representam os objetivos e benefícios potenciais da solução, ainda não resultados sociais comprovados em operação real.
 
 ---
 
